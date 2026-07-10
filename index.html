@@ -1,9 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Il mio sito</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>albeph | Homepage</title>
+    <meta name="description" content="Personal homepage of albeph - Dynamic GitHub repositories layout inspired by mxb.dev">
+    <meta name="color-scheme" content="light dark">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="main.css">
+    
+    <!-- Responsive theme color meta tags for mobile browsers -->
+    <meta name="theme-color" content="#f7f7f9" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e141b" media="(prefers-color-scheme: dark)">
 </head>
 <body>
-    <h1>Ciao Mondo! Questo è il mio sito su GitHub Pages.</h1>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main" class="sr-skip-link">Skip to main content</a>
+
+    <!-- Layout Wrapper -->
+    <div class="hfeed layout">
+        
+        <!-- Header -->
+        <header class="header" role="banner">
+            <div class="container header__inner">
+                <a href="/" class="header__brand" rel="home">
+                    <span class="header__name">Albeph's Page</span>
+                </a>
+                <div class="header__nav">
+                    <nav class="nav" role="navigation">
+                        <ul class="nav__menu">
+                            <li class="nav__item">
+                                <a href="mailto:albeph.ph@gmail.com" class="nav__link">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container main" id="main" role="main" tabindex="-1">
+            
+            <!-- Hero Section -->
+            <div class="fade-in hero-profile">
+                <div class="hero-profile__avatar-container">
+                    <img alt="Avatar" class="hero-profile__avatar js-header-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23eceeef'/%3E%3C/svg%3E">
+                </div>
+                <div class="hero-profile__info">
+                    <p class="hero-profile__text">I do experiments, sometimes something good comes out.</p>
+                </div>
+            </div>
+
+            <!-- Repository Section -->
+            <div class="repo-grid-section">
+                <div class="repo-grid-header">
+                    <h2 class="repo-grid-title">GitHub Repositories</h2>
+                    <a href="https://github.com/albeph" class="repo-grid-seeall" target="_blank" rel="noopener">
+                        See all
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+                
+                <!-- Repo Grid containing skeleton loaders initially -->
+                <ul class="featuredposts__list js-repo-grid">
+                    <!-- Skeleton Card 1 -->
+                    <li>
+                        <div class="skeleton-card">
+                            <div class="skeleton-text skeleton-text--title"></div>
+                            <div class="skeleton-text skeleton-text--desc-1"></div>
+                            <div class="skeleton-text skeleton-text--desc-2"></div>
+                            <div class="skeleton-footer">
+                                <div class="skeleton-text skeleton-text--footer-1"></div>
+                                <div class="skeleton-text skeleton-text--footer-2"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Skeleton Card 2 -->
+                    <li>
+                        <div class="skeleton-card">
+                            <div class="skeleton-text skeleton-text--title"></div>
+                            <div class="skeleton-text skeleton-text--desc-1"></div>
+                            <div class="skeleton-text skeleton-text--desc-2"></div>
+                            <div class="skeleton-footer">
+                                <div class="skeleton-text skeleton-text--footer-1"></div>
+                                <div class="skeleton-text skeleton-text--footer-2"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Skeleton Card 3 -->
+                    <li>
+                        <div class="skeleton-card">
+                            <div class="skeleton-text skeleton-text--title"></div>
+                            <div class="skeleton-text skeleton-text--desc-1"></div>
+                            <div class="skeleton-text skeleton-text--desc-2"></div>
+                            <div class="skeleton-footer">
+                                <div class="skeleton-text skeleton-text--footer-1"></div>
+                                <div class="skeleton-text skeleton-text--footer-2"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Skeleton Card 4 -->
+                    <li>
+                        <div class="skeleton-card">
+                            <div class="skeleton-text skeleton-text--title"></div>
+                            <div class="skeleton-text skeleton-text--desc-1"></div>
+                            <div class="skeleton-text skeleton-text--desc-2"></div>
+                            <div class="skeleton-footer">
+                                <div class="skeleton-text skeleton-text--footer-1"></div>
+                                <div class="skeleton-text skeleton-text--footer-2"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="container footer__inner">
+                <div class="footer__item">
+                    <h4>Projects</h4>
+                    <ul>
+                        <li><a href="https://github.com/albeph?tab=repositories" target="_blank" rel="noopener">All repositories</a></li>
+                        <li><a href="https://github.com/albeph?tab=packages" target="_blank" rel="noopener">Packages</a></li>
+                    </ul>
+                </div>
+                <div class="footer__item">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="https://github.com/albeph" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer__item">
+                    <h4>API Status</h4>
+                    <span class="footer__status">
+                        <span class="footer__status-dot js-api-status-dot"></span>
+                        <span class="js-api-status-text">Ready</span>
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
 </body>
 </html>
