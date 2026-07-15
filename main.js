@@ -1,7 +1,7 @@
 (function() {
     // Config
     const GITHUB_USER = 'albeph';
-    const CACHE_TIME = 10 * 60 * 1000; // 10 minutes in ms
+    const CACHE_TIME = 30 * 1000; // 30 seconds in ms
 
     // Generic fallback gradients for repo cards
     const fallbackGradients = [
@@ -82,32 +82,59 @@
             username = hostParts[0];
         }
 
-        try {
+        const profileCacheKey = `github_profile_${username}`;
+        const reposCacheKey = `github_repos_${username}`;
+        const cachedProfile = localStorage.getItem(profileCacheKey);
+        const cachedRepos = localStorage.getItem(reposCacheKey);
+        const cachedTime = localStorage.getItem(`${reposCacheKey}_time`);
+        const now = Date.now();
+        let hasCache = false;
+
+        // 1. Instantly render cache if it exists for lightning-fast loading
+        if (cachedProfile && cachedRepos) {
+            try {
+                const profile = JSON.parse(cachedProfile);
+                const repos = JSON.parse(cachedRepos);
+                renderProfile(profile);
+                renderRepos(repos);
+                updateApiStatus('ok', 'GitHub API: OK');
+                hasCache = true;
+            } catch (e) {
+                console.error('Error parsing cached data:', e);
+            }
+        }
+
+        // 2. Prevent background fetching if the cache is fresher than CACHE_TIME (30s)
+        if (hasCache && cachedTime && (now - parseInt(cachedTime, 10) < CACHE_TIME)) {
+            return;
+        }
+
+        if (!hasCache) {
             updateApiStatus('loading', 'Loading data...');
+        }
+
+        // 3. Background fetch fresh data from GitHub API
+        try {
             const [profile, repos] = await Promise.all([
-                getGitHubData(`github_profile_${username}`, `https://api.github.com/users/${username}`),
-                getGitHubData(`github_repos_${username}`, `https://api.github.com/users/${username}/repos?per_page=100`)
+                fetchFreshData(profileCacheKey, `https://api.github.com/users/${username}`),
+                fetchFreshData(reposCacheKey, `https://api.github.com/users/${username}/repos?per_page=100`)
             ]);
 
+            // Re-render dynamically with the new updates
             renderProfile(profile);
             renderRepos(repos);
             updateApiStatus('ok', 'GitHub API: OK');
         } catch (error) {
-            console.error('Error fetching GitHub data:', error);
-            renderFallbackData();
-            updateApiStatus('error', 'GitHub API Error');
+            console.error('Error fetching fresh GitHub data:', error);
+            // Only fall back to offline block if no cache exists to display
+            if (!hasCache) {
+                renderFallbackData();
+                updateApiStatus('error', 'GitHub API Error');
+            }
         }
     }
 
-    async function getGitHubData(cacheKey, url) {
-        const cached = localStorage.getItem(cacheKey);
-        const cachedTime = localStorage.getItem(`${cacheKey}_time`);
-        const now = Date.now();
-
-        if (cached && cachedTime && (now - cachedTime < CACHE_TIME)) {
-            return JSON.parse(cached);
-        }
-
+    async function fetchFreshData(cacheKey, url) {
         const res = await fetch(url);
         if (!res.ok) {
             throw new Error(`GitHub API returned status ${res.status}`);
@@ -115,7 +142,7 @@
         const data = await res.json();
         
         localStorage.setItem(cacheKey, JSON.stringify(data));
-        localStorage.setItem(`${cacheKey}_time`, now);
+        localStorage.setItem(`${cacheKey}_time`, Date.now().toString());
         return data;
     }
 
